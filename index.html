@@ -42,6 +42,28 @@
                 </section>
             </section>
             
+            <section class="info-section content-section" id="perfil" style="display:none;">
+                <h3><i class="fas fa-lock"></i> Entrar / Perfil</h3>
+                <div id="auth-ui">
+                    <input type="email" id="auth-email" placeholder="E-mail" required>
+                    <input type="password" id="auth-password" placeholder="Senha (mínimo 6 caracteres)" required>
+                    
+                    <button id="btn-login" class="btn primary">Entrar</button>
+                    <button id="btn-register" class="btn secondary">Registrar</button>
+                    
+                    <p id="auth-message" style="color: var(--color-danger); margin-top: 15px;"></p>
+                </div>
+                
+                <div id="user-info" style="display:none;">
+                    <p>Bem-vindo(a), <span id="user-email-display"></span>!</p>
+                    <button id="btn-logout" class="btn secondary">Sair</button>
+                    </div>
+            </section>
+            
+            <section class="info-section content-section" id="loja" style="display:none;">
+                <h3>Loja de Vantagens</h3>
+                <p>Aqui estarão os planos VIP disponíveis para compra. O login é obrigatório para realizar transações.</p>
+            </section>
             <section class="info-section content-section" id="eventos" style="display:none;">
                 <h3>Próximos Eventos</h3>
                 <p>O Grande Torneio PVP acontece no sábado! Prepare-se.</p>
@@ -53,12 +75,37 @@
                     <li>MVP (Vantagens Avançadas, $20/mês)</li>
                 </ul>
             </section>
+            <section class="info-section content-section" id="configuracao" style="display:none;">
+                <h3>Configurações de Conta</h3>
+                <p>Acesso restrito. Somente para usuários logados.</p>
+            </section>
+             <section class="info-section content-section" id="criador" style="display:none;">
+                <h3>Página do Criador</h3>
+                <p>Informações sobre o criador e formas de contato/suporte.</p>
+            </section>
             
         </main>
         <footer>
             <p>&copy; 2025 WILLzzin Craft. Foco na segurança na próxima fase.</p>
         </footer>
     </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyA6NpBjWsHty_YnX3k-GOb9WUJJL-b0qE8",
+        authDomain: "servidor-de-minecraft-stk.firebaseapp.com",
+        projectId: "servidor-de-minecraft-stk",
+        storageBucket: "servidor-de-minecraft-stk.firebasestorage.app",
+        messagingSenderId: "9065482432",
+        appId: "1:9065482432:web:34d3d5bcf1144976684525"
+      };
+      // Inicializa o Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
     
     <script src="script.js"></script>
 </body>
