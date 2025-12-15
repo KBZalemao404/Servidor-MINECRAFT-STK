@@ -1,18 +1,28 @@
 // ===============================================
 // ARQUIVO: script.js
-// FUNÇÃO: Checar o status do servidor Minecraft E Controlar Abas
+// FUNÇÃO: Status do Servidor, Troca de Abas e Autenticação Firebase
 // ===============================================
 
-// ** ENDEREÇO DO SERVIDOR Aternos **
+// ** Variáveis do Servidor **
 const SERVER_IP = "WILLzzin.aternos.me"; 
-
-// Captura os elementos HTML pelos seus IDs
 const statusIndicador = document.getElementById('status-indicador');
 const playerCount = document.getElementById('player-count');
 const serverIPDisplay = document.getElementById('server-ip');
 
-// Define o IP no display
 serverIPDisplay.textContent = SERVER_IP + ':25565'; 
+
+// ** Variáveis de Autenticação **
+const auth = firebase.auth();
+const authMessage = document.getElementById('auth-message');
+const btnLogin = document.getElementById('btn-login');
+const btnRegister = document.getElementById('btn-register');
+const btnLogout = document.getElementById('btn-logout');
+const authEmailInput = document.getElementById('auth-email');
+const authPasswordInput = document.getElementById('auth-password');
+const userInfoDiv = document.getElementById('user-info');
+const authUiDiv = document.getElementById('auth-ui');
+const userEmailDisplay = document.getElementById('user-email-display');
+
 
 // ===============================================
 // 1. Lógica de Checagem de Status
@@ -20,37 +30,25 @@ serverIPDisplay.textContent = SERVER_IP + ':25565';
 
 function checkServerStatus() {
     const API_URL = `https://api.mcsrvstat.us/2/${SERVER_IP}`;
-
-    // 1. Define o estado inicial como "Carregando"
     statusIndicador.textContent = "Verificando...";
     statusIndicador.className = 'status loading';
     playerCount.textContent = '...';
 
-    // 2. Faz a chamada HTTP assíncrona para a API
     fetch(API_URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro na API de Status: ${response.status}`);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            // 3. Processa os dados
             if (data.online) {
                 const players = data.players.online || 0;
-                
                 statusIndicador.textContent = "ONLINE";
                 statusIndicador.className = 'status online';
                 playerCount.textContent = players;
             } else {
-                // Servidor está OFFLINE
                 statusIndicador.textContent = "OFFLINE";
                 statusIndicador.className = 'status offline';
                 playerCount.textContent = '0';
             }
         })
         .catch(error => {
-            // 4. Trata erros
             console.error("Erro ao buscar status:", error);
             statusIndicador.textContent = "ERRO DE CONEXÃO";
             statusIndicador.className = 'status error'; 
@@ -64,7 +62,7 @@ setInterval(checkServerStatus, 30000);
 
 
 // ===============================================
-// 2. Lógica de Troca de Abas (AGORA FUNCIONA)
+// 2. Lógica de Troca de Abas (Menu)
 // ===============================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -72,12 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const contentSections = document.querySelectorAll('.content-section');
 
     function showSection(targetId) {
-        // Oculta todas as seções
         contentSections.forEach(section => {
             section.style.display = 'none';
         });
 
-        // Mostra a seção alvo (usando o ID do link, ex: #loja)
         const targetSection = document.querySelector(targetId);
         if (targetSection) {
             targetSection.style.display = 'block';
@@ -86,23 +82,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navItems.forEach(item => {
         item.addEventListener('click', (event) => {
-            event.preventDefault(); // Impede o salto padrão da página
+            event.preventDefault(); 
 
-            // Remove a classe 'active' de todos os itens de navegação
             navItems.forEach(nav => nav.classList.remove('active'));
-            
-            // Adiciona a classe 'active' ao item clicado
             item.classList.add('active');
 
-            // Troca a seção de conteúdo
             const targetId = item.getAttribute('href'); 
             showSection(targetId);
         });
     });
 
-    // Inicialização: Garante que a seção "SERVIDOR" (ativa por padrão no HTML) esteja visível
+    // Inicialização
     const initialActiveItem = document.querySelector('.nav-item.active');
     if (initialActiveItem) {
         showSection(initialActiveItem.getAttribute('href'));
+    }
+});
+
+
+// ===============================================
+// 3. Lógica de Autenticação (Firebase)
+// ===============================================
+
+function displayMessage(message, isError = true) {
+    authMessage.textContent = message;
+    authMessage.style.color = isError ? 'var(--color-danger)' : 'var(--color-success)';
+}
+
+// Handler de Registro
+btnRegister.addEventListener('click', () => {
+    const email = authEmailInput.value;
+    const password = authPasswordInput.value;
+    
+    displayMessage("Processando...", false);
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            displayMessage(`Registro bem-sucedido! Bem-vindo(a), ${userCredential.user.email}`, false);
+        })
+        .catch((error) => {
+            displayMessage(`Erro no Registro: ${error.message}`, true);
+        });
+});
+
+// Handler de Login
+btnLogin.addEventListener('click', () => {
+    const email = authEmailInput.value;
+    const password = authPasswordInput.value;
+
+    displayMessage("Processando...", false);
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            displayMessage(`Login bem-sucedido!`, false);
+        })
+        .catch((error) => {
+            displayMessage(`Erro no Login: ${error.message}`, true);
+        });
+});
+
+// Handler de Logout
+btnLogout.addEventListener('click', () => {
+    auth.signOut()
+        .then(() => {
+            displayMessage("Você saiu da conta.", false);
+        })
+        .catch((error) => {
+            displayMessage(`Erro ao sair: ${error.message}`, true);
+        });
+});
+
+// Monitorar o Estado da Autenticação (Atualiza a UI)
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        // Usuário logado
+        authUiDiv.style.display = 'none';
+        userInfoDiv.style.display = 'block';
+        userEmailDisplay.textContent = user.email;
+        authMessage.textContent = ''; 
+    } else {
+        // Usuário deslogado
+        authUiDiv.style.display = 'block';
+        userInfoDiv.style.display = 'none';
+        userEmailDisplay.textContent = '';
     }
 });
