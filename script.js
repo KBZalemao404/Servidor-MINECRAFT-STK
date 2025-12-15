@@ -52,15 +52,11 @@ function checkServerStatus() {
             // 4. Trata erros
             console.error("Erro ao buscar status:", error);
             statusIndicador.textContent = "ERRO DE CONEXÃO";
-            statusIndicador.className = 'status error'; // Usando a classe 'error' para consistência
+            statusIndicador.className = 'status error'; 
             playerCount.textContent = 'N/A';
         });
 }
 
 // Inicia a checagem e configura o intervalo
 checkServerStatus();
-setInterval(checkServerStatus, 30000); 
-
-// ===============================================
-// FIM DO ARQUIVO: script.js
-// ===============================================
+setInterval(checkServerStatus, 30000);
