@@ -1,42 +1,160 @@
-body {
-    font-family: sans-serif;
+/* Reset Básico */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Cores de Jogos e Alto Contraste */
+    --color-bg: #1a1a2e; /* Azul Escuro Quase Preto */
+    --color-text: #e0e0e0; /* Cinza Claro */
+    --color-primary: #00bcd4; /* Ciano Brilhante (Destaque) */
+    --color-accent: #ff4081; /* Pink Choque (Alerta/Secundário) */
+    --color-success: #4CAF50; /* Verde (Online) */
+    --color-danger: #F44336; /* Vermelho (Offline) */
+    --color-card-bg: #222538; /* Fundo do Card */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
     text-align: center;
 }
-header {
-    background-color: #2c3e50;
-    color: white;
-    padding: 20px 0;
+
+/* Tipografia e Header */
+header h1 {
+    font-size: 2.8em;
+    color: var(--color-primary);
+    padding: 30px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
+
+/* Status Box - Central do Site */
 .status-box {
-    margin: 50px auto;
-    padding: 30px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    margin: 40px auto;
+    padding: 35px;
+    background-color: var(--color-card-bg);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    border-left: 5px solid var(--color-primary);
 }
-/* Estilos para o indicador de status */
-#status-indicador {
-    font-size: 1.2em;
-    font-weight: bold;
-    padding: 10px;
-    border-radius: 5px;
+
+.status-box h2 {
     margin-bottom: 20px;
-    transition: background-color 0.3s;
+    font-size: 1.5em;
 }
+
+/* Indicador de Status Dinâmico */
+#status-indicador {
+    font-size: 1.8em;
+    font-weight: 700;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    transition: background-color 0.4s ease;
+    display: inline-block;
+    min-width: 200px;
+}
+
 .status.online {
-    background-color: #4CAF50; /* Verde */
-    color: white;
+    background-color: var(--color-success);
+    color: #fff;
+    box-shadow: 0 0 10px var(--color-success);
 }
-.status.offline {
-    background-color: #f44336; /* Vermelho */
-    color: white;
+
+.status.offline, .status.error {
+    background-color: var(--color-danger);
+    color: #fff;
+    box-shadow: 0 0 10px var(--color-danger);
 }
+
 .status.loading {
     background-color: #ff9800; /* Laranja */
-    color: white;
+    color: #333;
+}
+
+/* Informações do Servidor */
+.status-box p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.ip-display code {
+    background-color: #333;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    color: var(--color-primary);
+}
+
+/* Botões de Chamada para Ação (CTA) */
+.cta-buttons {
+    margin: 30px 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    margin: 0 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, opacity 0.2s;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.btn.primary {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+}
+
+.btn.secondary {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+}
+
+/* Seções de Informação */
+.info-section {
+    margin: 50px 0;
+    text-align: left;
+    padding: 20px;
+    background-color: var(--color-card-bg);
+    border-radius: 12px;
+}
+
+.info-section h3 {
+    color: var(--color-primary);
+    margin-bottom: 15px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+
+.info-section ul {
+    list-style: disc;
+    margin-left: 20px;
+    padding-left: 10px;
+}
+
+/* Rodapé */
+footer {
+    padding: 20px 0;
+    margin-top: 30px;
+    border-top: 1px solid #333;
+    font-size: 0.9em;
+    color: #777;
 }
