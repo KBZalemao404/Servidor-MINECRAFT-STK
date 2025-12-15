@@ -17,7 +17,8 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Aplica a fonte importada */
+    font-family: 'Roboto Condensed', sans-serif; 
     background-color: var(--color-bg);
     color: var(--color-text);
     line-height: 1.6;
@@ -37,6 +38,48 @@ header h1 {
     padding: 30px 0;
     text-transform: uppercase;
     letter-spacing: 2px;
+}
+
+header h1 i {
+    font-size: 0.8em;
+    vertical-align: middle;
+}
+
+/* --- Estilo de Navegação (Menu) --- */
+nav {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    margin-bottom: 30px;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    background-color: #2c2f45; 
+    flex-wrap: wrap; /* Garante quebras de linha em telas pequenas */
+}
+
+.nav-item {
+    text-decoration: none;
+    color: var(--color-text);
+    padding: 10px 15px;
+    margin: 5px;
+    font-weight: 700;
+    font-size: 0.9em;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap; /* Evita quebras de linha dentro do item */
+}
+
+.nav-item i {
+    margin-right: 5px;
+}
+
+.nav-item:hover {
+    background-color: #3e4157;
+}
+
+.nav-item.active {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
 }
 
 /* Status Box - Central do Site */
@@ -79,7 +122,7 @@ header h1 {
 }
 
 .status.loading {
-    background-color: #ff9800; /* Laranja */
+    background-color: #ff9800; 
     color: #333;
 }
 
